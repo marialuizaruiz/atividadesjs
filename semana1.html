@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 1</title>
+    <script>
+        //Exercício 1
+        function Verificar(numero){
+            if(!isNaN(numero)){
+                alert("Seu dado é do tipo NUMBER");
+            }
+            else if(typeof numero == 'string'){
+                alert("Seu dado é do tipo STRING");
+            }
+        }
+
+        let d = prompt("Digite um dado: ","");
+        if(confirm("Quer ver seu tipo de dado?")){
+            Verificar(d);
+        }
+        else{
+            alert("Obrigado por visitar esta página!");
+        }
+
+        //Exercício 2
+        let m=2, j=0;
+        let k = prompt("Digite um número inteiro posivito: ","");
+        if(isNaN(k)){
+            alert("Valor inválido!");
+        }
+
+        else{
+            while(m<=(k/2) && j == 0){
+                if(k%m==0){
+                    j=1;
+                }
+                m++;
+            }
+
+            if(j==1){
+                alert("Não é primo");
+            }
+
+            else {
+                alert("É primo");
+            }  
+        }
+
+        //Exercício 3
+        let x = prompt("Digite um número inteiro positivo: ","");
+        if(isNaN(x)){
+            alert("Valor inválido!");
+        }
+
+        else{
+            if(x%2 == 0){
+                alert("Número par");
+            }
+
+            else{
+                alert("Número ímpar");
+            }
+        }
+
+        //Exercício 4
+        let n = prompt("Digite um número inteiro positivo:", "");
+
+        if (isNaN(n) || n < 0) {
+            alert("Valor inválido!");
+
+        } else {
+            n = parseInt(n);
+
+            function factorialize(num) {
+                if (num === 0 || num === 1) {
+                    return 1;
+                } else {
+                    return num * factorialize(num - 1);
+                }
+            }
+
+            const resultado = factorialize(n);
+            alert("O fatorial de " + n + " é " + resultado);
+        }
+    </script>
+</head>
+<body>
+    <h1>Atividade 1</h1>
+    <a href="index.html">Voltar</a>
+    
+</body>
+</html>
