@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 2</title>
+    <style>
+        body{
+            font-size: larger;
+            margin: 10px 50px;
+            background-color: lightgoldenrodyellow;
+        }
+    </style>
+</head>
+<body>
+    <h2>Atividade 2</h2>
+    
+    <form id="form">
+        <label for="valor">Informe um valor:</label>
+        <input type="text" id="valor" placeholder="Digite aqui">
+        <button type="button" onclick="adicionarValor()">Adicionar</button><hr>
+    </form>
+
+    <h3>Lista Ordenada:</h3>
+    <ul id="valoresArray"></ul>
+
+    <script>
+        let valores = [];
+
+        function adicionarValor() {
+            const valorInput = document.getElementById('valor');
+            const valor = valorInput.value.trim();
+
+            if (valor !== '') {
+                valores.push(valor);
+                valores.sort(); 
+                valorInput.value = '';
+                exibirValores();
+            }
+        }
+
+        function exibirValores() {
+            const valoresArray = document.getElementById('valoresArray');
+            valoresArray.innerHTML = '';
+
+            valores.forEach((valor, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${index + 1}. ${valor}`;
+                valoresArray.appendChild(listItem);
+            });
+        }
+    </script>
+    <a href="index.html">Voltar</a>
+</body>
+</html>
