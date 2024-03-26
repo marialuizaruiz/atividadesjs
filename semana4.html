@@ -189,16 +189,15 @@
         });
 
         function mostrarResultado(objeto) {
-            let resultadoHTML = '<br><h3>Dados Enviados:</h3>';
+            let resultadoTexto = 'Dados Enviados:\n';
             for (const key in objeto) {
                 if (Object.hasOwnProperty.call(objeto, key)) {
                     const value = objeto[key];
                     const tituloChave = key.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
-                    resultadoHTML += `<p><strong>${tituloChave}:</strong> ${value}</p>`;
+                    resultadoTexto += `${tituloChave}: ${value}\n`;
                 }
             }
-            resultadoDiv.style.display = 'block';
-            resultadoDiv.innerHTML = resultadoHTML;
+            alert(resultadoTexto);
         }
 
         form.addEventListener('submit', function(event) {
