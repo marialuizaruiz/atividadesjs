@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 4</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body{
+            font-size: larger;
+            margin: 10px 50px;
+            background-color: #caf0f8;
+        }
+    </style>
+</head>
+<body class="container">
+    <br><h3>Formulário de Cadastro</h3><br>
+    <form id="form">
+        <div class="row">
+            <div class="col-12">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" placeholder="Digite seu nome completo" required><br>
+            </div>
+            <div class="col-8">
+                <label for="email" class="form-label">E-mail:</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="fulano.com" required><br>
+            </div>    
+            <div class="col-4">
+                <label for="dataNascimento" class="form-label">Data Nascimento:</label>
+                <input type="date" id="dataNascimento" name="dataNascimento" class="form-control" required><br>
+            </div>
+            <div class="col-4">
+                <label for="telefone" class="form-label">Telefone Fixo:</label>
+                <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(99)9999-9999" required><br>
+            </div>
+            <div class="col-4">
+                <label for="celular" class="form-label">Telefone Celular:</label>
+                <input type="text" id="celular" name="celular" class="form-control" placeholder="(99)9999-9999" required><br>
+            </div>
+            <div class="col-4">
+                <label class="form-label" for="professor">
+                    <br><input type="checkbox" id="professor" name="opcao" class="form-check-input" required> Professor
+                </label><br>
+                <label class="form-label" for="aluno">
+                    <input type="checkbox" id="aluno" name="opcao" class="form-check-input" required> Aluno
+                </label><br>
+            </div>
+        </div>
+    </form>
+
+    <div id="formularios"></div>
+    <div id="resultado" style="display: none;"></div>
+
+    <script>
+        class Cadastro {
+            constructor(nome, email, dataNascimento, telefone, celular) {
+                this.nome = nome;
+                this.email = email;
+                this.dataNascimento = dataNascimento;
+                this.telefone = telefone;
+                this.celular = celular;
+            }
+        }
+
+        class Professor extends Cadastro {
+            constructor(nome, email, dataNascimento, telefone, celular, area, matricula, lattes) {
+                super(nome, email, dataNascimento, telefone, celular);
+                this.area = area;
+                this.matricula = matricula;
+                this.lattes = lattes;
+            }
+        }
+
+        class Aluno extends Cadastro {
+            constructor(nome, email, dataNascimento, telefone, celular, curso, matriculaAluno) {
+                super(nome, email, dataNascimento, telefone, celular);
+                this.curso = curso;
+                this.matriculaAluno = matriculaAluno;
+            }
+        }
+
+        const form = document.getElementById('form');
+        const formulariosDiv = document.getElementById('formularios');
+        const resultadoDiv = document.getElementById('resultado');
+        const professorCheckbox = document.getElementById('professor');
+        const alunoCheckbox = document.getElementById('aluno');
+
+        professorCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                alunoCheckbox.checked = false;
+                
+                const formularioProfessorHTML = `
+                    <form id="formProfessor">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="area" class="form-label">Área:</label>
+                                <input type="text" id="area" name="area" class="form-control" placeholder="Digite sua área de atuação" required><br>
+                            </div>    
+                            <div class="col-4">
+                                <label for="matricula" class="form-label">Matrícula:</label>
+                                <input type="text" id="matricula" name="matricula" class="form-control" placeholder="Digite sua matrícula" required><br>
+                            </div>
+                            <div class="col-12">
+                                <label for="lattes" class="form-label">Lattes:</label>
+                                <input type="text" id="lattes" name="lattes" class="form-control" placeholder="Digite aqui o endereço para seu lattes" required><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <br><button type="button" id="enviarProfessor" class="btn btn-primary">Enviar</button>
+                                <button type="button" id="redefinirProfessor" class="btn btn-secondary">Redefinir</button><br>
+                            </div>
+                        </div>
+                    </form>
+                `;
+
+                formulariosDiv.innerHTML = formularioProfessorHTML;
+
+                const enviarProfessorBtn = document.getElementById('enviarProfessor');
+                enviarProfessorBtn.addEventListener('click', function() {
+                    const nome = document.getElementById('nome').value;
+                    const email = document.getElementById('email').value;
+                    const dataNascimento = document.getElementById('dataNascimento').value;
+                    const telefone = document.getElementById('telefone').value;
+                    const celular = document.getElementById('celular').value;
+                    const area = document.getElementById('area').value;
+                    const matricula = document.getElementById('matricula').value;
+                    const lattes = document.getElementById('lattes').value;
+
+                    const professor = new Professor(nome, email, dataNascimento, telefone, celular, area, matricula, lattes);
+                    mostrarResultado(professor);
+                });
+
+                const redefinirProfessorBtn = document.getElementById('redefinirProfessor');
+                redefinirProfessorBtn.addEventListener('click', function() {
+                    document.getElementById('form').reset();
+                    document.getElementById('formProfessor').reset();
+                });
+            }
+        });
+
+        alunoCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                professorCheckbox.checked = false;
+
+                const formularioAlunoHTML = `
+                    <form id="formAluno">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="curso" class="form-label">Curso:</label>
+                                <input type="text" id="curso" name="curso" class="form-control" placeholder="Digite seu curso" required><br>
+                            </div>    
+                            <div class="col-4">
+                                <label for="matriculaAluno" class="form-label">Matrícula:</label>
+                                <input type="text" id="matriculaAluno" name="matriculaAluno" class="form-control" placeholder="Digite sua matrícula" required><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <br><button type="button" id="enviarAluno" class="btn btn-primary">Enviar</button>
+                                <button type="button" id="redefinirAluno" class="btn btn-secondary">Redefinir</button><br>
+                            </div>
+                        </div>
+                    </form>
+                `;
+
+                formulariosDiv.innerHTML = formularioAlunoHTML;
+
+                const enviarAlunoBtn = document.getElementById('enviarAluno');
+                enviarAlunoBtn.addEventListener('click', function() {
+                    const nome = document.getElementById('nome').value;
+                    const email = document.getElementById('email').value;
+                    const dataNascimento = document.getElementById('dataNascimento').value;
+                    const telefone = document.getElementById('telefone').value;
+                    const celular = document.getElementById('celular').value;
+                    const curso = document.getElementById('curso').value;
+                    const matriculaAluno = document.getElementById('matriculaAluno').value;
+
+                    const aluno = new Aluno(nome, email, dataNascimento, telefone, celular, curso, matriculaAluno);
+                    mostrarResultado(aluno);
+                });
+
+                const redefinirAlunoBtn = document.getElementById('redefinirAluno');
+                redefinirAlunoBtn.addEventListener('click', function() {
+                    document.getElementById('form').reset();
+                    document.getElementById('formAluno').reset();
+                });
+            }
+        });
+
+        function mostrarResultado(objeto) {
+            let resultadoHTML = '<br><h3>Dados Enviados:</h3>';
+            for (const key in objeto) {
+                if (Object.hasOwnProperty.call(objeto, key)) {
+                    const value = objeto[key];
+                    const tituloChave = key.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
+                    resultadoHTML += `<p><strong>${tituloChave}:</strong> ${value}</p>`;
+                }
+            }
+            resultadoDiv.style.display = 'block';
+            resultadoDiv.innerHTML = resultadoHTML;
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('form'));
+            const cadastro = new Cadastro(formData.get('nome'), formData.get('email'), formData.get('dataNascimento'), formData.get('telefone'), formData.get('celular'));
+            mostrarResultado(cadastro);
+        });
+
+        const redefinirFormBtn = document.getElementById('redefinirForm');
+        redefinirFormBtn.addEventListener('click', function() {
+            document.getElementById('form').reset();
+            formulariosDiv.innerHTML = ''; 
+            resultadoDiv.innerHTML = ''; 
+            resultadoDiv.style.display = 'none'; 
+        });
+        </script>
+    
+</body>
+</html>
+
