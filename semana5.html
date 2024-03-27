@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 5</title>
+</head>
+<body>
+    <div class="container"></div>
+
+    <script>
+        const style = document.createElement('style');
+        style.textContent = `
+            body{
+                font-size: larger;
+                margin: 10px 50px;
+                background-color: #caf0f8;
+            }
+            .container {
+                text-align: center;
+                margin-top: 50px;
+            }
+            .counter {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .icon {
+                width: 50px;
+                cursor: pointer;
+                margin: 5px;
+            }
+            .person-img {
+                width: 100px;
+            }
+            .control-icons {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px; /* Adiciona margem para separar os botões de adição/subtração */
+            }
+            .gender-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .gender {
+                margin: 0 10px; /* Adiciona margem entre os ícones de gênero */
+            }
+        `;
+        document.head.appendChild(style);
+
+        let contagemMulheres = 0;
+        let contagemHomens = 0;
+
+        // Elemento do DOM
+        const container = document.querySelector('.container');
+
+        const totalText = document.createElement('h2');
+        totalText.classList.add('total-text');
+        totalText.textContent = 'Total';
+        container.appendChild(totalText);
+
+        const counterDiv = document.createElement('h3');
+        counterDiv.classList.add('counter');
+        counterDiv.textContent = '0';
+        container.appendChild(counterDiv);
+
+        const counterElement = document.querySelector('.counter');
+
+        // Atualizar contador
+        function updateCounter() {
+            const totalContagem = contagemMulheres + contagemHomens;
+            counterElement.textContent = totalContagem;
+        }
+
+        // Adiciona 
+        function addWoman() {
+            contagemMulheres++;
+            updateCounter();
+            updateGenderCount();
+        }
+
+        function addMan() {
+            contagemHomens++;
+            updateCounter();
+            updateGenderCount();
+        }
+
+        // Remove 
+        function removeWoman() {
+            if (contagemMulheres > 0) {
+                contagemMulheres--;
+                updateCounter();
+                updateGenderCount();
+            }
+        }
+
+        function removeMan() {
+            if (contagemHomens > 0) {
+                contagemHomens--;
+                updateCounter();
+                updateGenderCount();
+            }
+        }
+
+        // Conteiner para imagens de gênero
+        const genderContainer = document.createElement('div');
+        genderContainer.classList.add('gender-container');
+        container.appendChild(genderContainer);
+        
+        // Mulher
+        const imgWoman = document.createElement('img');
+        imgWoman.src = 'img/mulher.png';
+        imgWoman.alt = 'Ícone de mulher';
+        imgWoman.classList.add('person-img');
+        genderContainer.appendChild(imgWoman);
+
+        // Homem
+        const imgMan = document.createElement('img');
+        imgMan.src = 'img/homem.png';
+        imgMan.alt = 'Ícone de homem';
+        imgMan.classList.add('person-img');
+        genderContainer.appendChild(imgMan);
+
+        // Ícone de recarregar
+        const imgRecarregar = document.createElement('img');
+        imgRecarregar.src = 'img/recarregar.png';
+        imgRecarregar.alt = 'Ícone de recarregar';
+        imgRecarregar.classList.add('icon');
+        imgRecarregar.style.position = 'absolute';
+        imgRecarregar.style.top = '0';
+        imgRecarregar.style.right = '0';
+        imgRecarregar.addEventListener('click', resetCounters); 
+        genderContainer.appendChild(imgRecarregar);
+
+        // Redefinir os contadores
+        function resetCounters() {
+            contagemMulheres = 0;
+            contagemHomens = 0;
+            updateCounter();
+            updateGenderCount();
+        }
+
+        // Conteiner para botões de controle
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.classList.add('control-icons');
+        container.appendChild(buttonsContainer);
+
+        // Adicionar 
+        const addWomanButton = document.createElement('img');
+        addWomanButton.src = 'img/adicao.png';
+        addWomanButton.alt = 'Adicionar mulher';
+        addWomanButton.classList.add('icon');
+        addWomanButton.style.marginRight = '10px';
+        addWomanButton.addEventListener('click', addWoman);
+        buttonsContainer.appendChild(addWomanButton);
+
+        // Remover
+        const removeWomanButton = document.createElement('img');
+        removeWomanButton.src = 'img/subtracao.png';
+        removeWomanButton.alt = 'Subtrair mulher';
+        removeWomanButton.classList.add('icon');
+        removeWomanButton.style.marginRight = '10px';
+        removeWomanButton.addEventListener('click', removeWoman);
+        buttonsContainer.appendChild(removeWomanButton);
+
+        // Adicionar
+        const addManButton = document.createElement('img');
+        addManButton.src = 'img/adicao.png';
+        addManButton.alt = 'Adicionar homem';
+        addManButton.classList.add('icon');
+        addManButton.style.marginLeft = '10px';
+        addManButton.addEventListener('click', addMan);
+        buttonsContainer.appendChild(addManButton);
+
+        // Remover
+        const removeManButton = document.createElement('img');
+        removeManButton.src = 'img/subtracao.png';
+        removeManButton.alt = 'Subtrair homem';
+        removeManButton.classList.add('icon');
+        removeManButton.style.marginLeft = '10px';
+        removeManButton.addEventListener('click', removeMan);
+        buttonsContainer.appendChild(removeManButton);
+
+        // Contagem de gênero
+        const genderCountContainer = document.createElement('div');
+        genderCountContainer.classList.add('gender-container');
+        container.appendChild(genderCountContainer);
+
+        const womanCount = document.createElement('h4');
+        womanCount.classList.add('gender');
+        womanCount.textContent = `Mulheres: ${contagemMulheres}`;
+        genderCountContainer.appendChild(womanCount);
+
+        const manCount = document.createElement('h4');
+        manCount.classList.add('gender');
+        manCount.textContent = `Homens: ${contagemHomens}`;
+        genderCountContainer.appendChild(manCount);
+
+        // Atualizar a contagem de gênero
+        function updateGenderCount() {
+            womanCount.textContent = `Mulheres: ${contagemMulheres}`;
+            manCount.textContent = `Homens: ${contagemHomens}`;
+        }
+    </script>
+
+    <br><br><a href="index.html">Voltar</a>
+</body>
+</html>
