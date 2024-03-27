@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade 6</title>
+    <style>
+        body {
+            background-color: #caf0f8;
+        }
+        .calculator {
+            width: 330px; 
+            height: 600px; 
+            background-color: black;
+            margin: 50px auto 0; 
+            display: flex;
+            flex-direction: column; 
+            font-family: sans-serif;
+            padding: 10px;
+            border-radius: 4%;  
+        }
+        .resultado {
+            color: white; 
+            font-size: 60px; 
+            text-align: right; 
+            margin-bottom: 10px;
+            margin-top: 80px;
+        }
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button {
+            width: 70px;
+            height: 70px;
+            background-color: #363636;
+            border-radius: 50%; 
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button span {
+            color: white;
+            font-size: 36px;
+        }
+        .operacoes {
+            background-color: orange;
+        }
+        .especiais {
+            color: black !important;
+            background-color: #707070;
+        }
+        .especiais span {
+            color: black; 
+        }
+        .zero {
+            width: calc(80px * 2 + 5px); 
+            border-radius: 50px;
+        }
+        a{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script>
+        const calculatorDiv = document.createElement('div');
+        calculatorDiv.classList.add('calculator');
+        document.body.appendChild(calculatorDiv); 
+
+        const resultadoDiv = document.createElement('div');
+        resultadoDiv.classList.add('resultado');
+        resultadoDiv.innerText = '0'; 
+        calculatorDiv.appendChild(resultadoDiv);
+
+        let expressao = ''; 
+
+        const botoes = [
+            ['AC', '+/-', '%', '÷'],
+            ['7', '8', '9', 'x'],
+            ['4', '5', '6', '-'],
+            ['1', '2', '3', '+'],
+            ['0', ',', '='], 
+        ];
+
+        botoes.forEach(linha => {
+            const linhaBotoes = document.createElement('div');
+            linhaBotoes.classList.add('button-row');
+            linha.forEach(texto => {
+                const botao = document.createElement('div');
+                botao.classList.add('button');
+                if (texto === '+' || texto === '-' || texto === 'x' || texto === '÷' || texto === '=') {
+                    botao.classList.add('operacoes');
+                } else if (texto === 'AC' || texto === '+/-' || texto === '%') {
+                    botao.classList.add('especiais');
+                } else if (texto === '0') {
+                    botao.classList.add('zero');
+                }
+                botao.innerHTML = `<span>${texto}</span>`;
+                botao.addEventListener('click', () => {
+                    manipularBotao(texto);
+                });
+                linhaBotoes.appendChild(botao);
+            });
+            calculatorDiv.appendChild(linhaBotoes);
+        });
+
+        function manipularBotao(input) {
+            switch(input) {
+                case 'AC':
+                    limparExpressao();
+                    break;
+                case '=':
+                    calcular();
+                    break;
+                default:
+                    adicionarAoInput(input);
+            }
+        }
+
+        function adicionarAoInput(input) {
+            expressao += input;
+            atualizarDisplay();
+        }
+
+        function limparExpressao() {
+            expressao = '';
+            atualizarDisplay();
+        }
+
+        function calcular() {
+            try {
+                // Substitui 'x' por '*' e '÷' por '/'
+                expressao = expressao.replace(/x/g, '*').replace(/÷/g, '/');
+                const resultado = eval(expressao);
+                resultadoDiv.innerText = resultado;
+                expressao = '';
+            } catch (erro) {
+                resultadoDiv.innerText = 'Erro';
+            }
+        }
+
+        function atualizarDisplay() {
+            resultadoDiv.innerText = expressao || '0';
+        }
+    </script>
+    <br><br><a href="index.html">Voltar</a>
+</body>
+</html>
