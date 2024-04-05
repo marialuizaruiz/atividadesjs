@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!--não use isso em produção-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Atividade 7</title>
+</head>
+
+<body>
+    <div id="root">
+        <script type="text/babel">
+            function MeuElemento({texto}) {
+                return (
+                    <div>
+                        <h1 id="texto">{texto}</h1>
+                    </div>
+                );
+            }
+
+            const container = document.getElementById('root');
+            const root = ReactDOM.createRoot(container);
+
+            let textoAtual = '';
+            let index = 0;
+            let textoCompleto = 'Venha estudar na Fatec';
+
+            function tick() {
+                if (index < textoCompleto.length) {
+                    textoAtual += textoCompleto[index];
+                    root.render(<MeuElemento texto={textoAtual} />);
+                    index++;
+                    setTimeout(tick, 100); 
+                }
+            }
+            tick();
+        </script>
+    </div>
+</body>
+</html>
