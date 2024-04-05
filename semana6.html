@@ -60,6 +60,10 @@
         }
         a{
             font-size: 20px;
+            text-decoration: none;
+        }
+        p{
+            text-align: center;
         }
     </style>
 </head>
@@ -115,6 +119,12 @@
                 case '=':
                     calcular();
                     break;
+                case '+/-':
+                    transformarEmNegativo();
+                    break; 
+                case '%':
+                    aplicarPorcentagem();
+                    break;      
                 default:
                     adicionarAoInput(input);
             }
@@ -132,9 +142,33 @@
 
         function calcular() {
             try {
-                // Substitui 'x' por '*' e '÷' por '/'
-                expressao = expressao.replace(/x/g, '*').replace(/÷/g, '/');
+                // Substitui 'x' por '*' e '÷' por '/' e ',' por '.'
+                expressao = expressao.replace(/x/g, '*').replace(/÷/g, '/').replace(/,/g, '.');
                 const resultado = eval(expressao);
+                resultadoDiv.innerText = resultado;
+                expressao = '';
+            } catch (erro) {
+                resultadoDiv.innerText = 'Erro';
+            }
+        }
+
+        function transformarEmNegativo() {
+            if (expressao !== '') {
+                const ultimoNumero = expressao.match(/[+\-*/]?\d+(\.\d+)?$/)[0];
+                if (ultimoNumero.startsWith('-')) {
+                    expressao = expressao.slice(0, -ultimoNumero.length) + ultimoNumero.slice(1);
+                } else {
+                    expressao = expressao.slice(0, -ultimoNumero.length) + '-' + ultimoNumero;
+                }
+                atualizarDisplay();
+            }    
+        }
+
+        function aplicarPorcentagem() {
+            try {
+                const ultimoNumero = expressao.match(/[+\-*/]?\d+(\.\d+)?$/)[0];
+                const porcentagem = parseFloat(ultimoNumero) * 0.01;
+                const resultado = parseFloat(expressao.slice(0, -ultimoNumero.length)) * (1 + porcentagem);
                 resultadoDiv.innerText = resultado;
                 expressao = '';
             } catch (erro) {
@@ -146,6 +180,6 @@
             resultadoDiv.innerText = expressao || '0';
         }
     </script>
-    <br><br><a href="index.html">Voltar</a>
+    <p><a href="index.html">Voltar</a></p>
 </body>
 </html>
